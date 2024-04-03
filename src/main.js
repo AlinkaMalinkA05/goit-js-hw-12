@@ -10,6 +10,7 @@ const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const loadMoreBtn = document.querySelector('.load-more-btn');
 
+
 let currentPage = 1;
 let currentQuery = '';
 
@@ -33,7 +34,7 @@ function handleSubmit(event) {
 }
 
 async function handleSearch(query, page) {
-  try {
+    try {
     renderLoader(loader);
     const data = await getPicture(query, page);
     hideLoader(loader);
