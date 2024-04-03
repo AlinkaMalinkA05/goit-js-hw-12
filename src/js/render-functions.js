@@ -1,5 +1,6 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
+const gallery =document.querySelector(".gallery")
 export function renderGallery(images) {
   const newMarkup = images.map(({
     webformatURL,

@@ -13,6 +13,7 @@ const loadMoreBtn = document.querySelector('.load-more-btn');
 
 let currentPage = 1;
 let currentQuery = '';
+let query
 
 form.addEventListener('submit', handleSubmit);
 
@@ -25,7 +26,7 @@ function handleSubmit(event) {
   if (findValue === '') {
     iziToast.error({
       title: 'Error',
-      message: 'Field can\'t be empty ',
+      message: "Field can't be empty",
       position: 'topRight',
     });
     return;
@@ -34,23 +35,32 @@ function handleSubmit(event) {
 }
 
 async function handleSearch(query, page) {
-    try {
-    renderLoader(loader);
-    const data = await getPicture(query, page);
-    hideLoader(loader);
-    if (data.hits.length === 0) {
-      renderErrorMessage('Sorry, there are no images matching your search query. Please try again!');
-      return;
-    }
-    renderGallery(data.hits);
-    if (data.totalHits <= page * 15) {
-      loadMoreBtn.style.display = 'none';
-    } else {
-      loadMoreBtn.style.display = 'block';
-    }
+  try {
+      renderLoader(loader);
+      const data = await getPicture(query, 1);
+      hideLoader(loader);
+      console.log(data.hits);
+      renderGallery(data.hits)
+
+      if (data.hits.length === 0) {
+          renderErrorMessage('Sorry, there are no images matching your search query. Please try again!');
+          return;
+      }
+      renderGallery(data.hits);
+      if (data.totalHits <= page * 15) {
+          loadMoreBtn.style.display = 'none';
+      } else {
+          loadMoreBtn.style.display = 'block';
+      }
   } catch (error) {
-    renderErrorMessage('Something went wrong');
-    hideLoader(loader);
+      renderErrorMessage('Something went wrong');
+      hideLoader(loader);
   }
 }
 
+loadMoreBtn.addEventListener("click", onLoadMoreClick)
+async function onLoadMoreClick() {
+  const data = await getPicture(query, 1);
+  renderGallery(data.hits)
+  
+}
