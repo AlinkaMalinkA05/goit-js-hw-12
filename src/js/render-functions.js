@@ -1,6 +1,16 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
-const gallery =document.querySelector(".gallery")
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+
+
+const gallery = document.querySelector(".gallery")
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+  captionPosition: 'bottom',
+});
+
 export function renderGallery(images) {
   const newMarkup = images.map(({
     webformatURL,
@@ -41,6 +51,7 @@ export function renderGallery(images) {
   .join('');
 
   gallery.insertAdjacentHTML('beforeend', newMarkup);
+  lightbox.refresh();
 }
 
 export function renderLoader(loaderElement) {
