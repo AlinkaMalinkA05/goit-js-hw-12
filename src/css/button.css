@@ -20,3 +20,17 @@
 .icon {
   fill: #ffffff;
 }
+
+.load-more-btn {
+  background: #4e75ff;
+  border-radius: 8px;
+  width: 125px;
+  height: 40px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  font: 500 16px / 1.5 'Montserrat', sans-serif;
+  color: #fff;
+  margin: 40px auto;
+}

@@ -1,12 +1,11 @@
-import iziToast from 'izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { getPicture } from './js/pixaby-api';
 import { renderGallery, renderErrorMessage, renderLoader, hideLoader } from './js/render-functions';
 
 const form = document.querySelector('.form');
-const input = document.querySelector('.search-input');
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const loadMoreBtn = document.querySelector('.load-more-btn');
@@ -25,7 +24,7 @@ function handleSubmit(event) {
   if (findValue === '') {
     iziToast.error({
       title: 'Error',
-      message: "Field can't be empty",
+      message: 'Field can\'t be empty ',
       position: 'topRight',
     });
     return;
@@ -54,15 +53,3 @@ async function handleSearch(query, page) {
   }
 }
 
-loadMoreBtn.addEventListener('click', handleLoadMore);
-
-function handleLoadMore() {
-  currentPage++;
-  handleSearch(currentQuery, currentPage);
-}
-
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-  captionPosition: 'bottom',
-});

@@ -1,3 +1,5 @@
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 export function renderGallery(images) {
   const newMarkup = images.map(({
     webformatURL,
@@ -37,8 +39,7 @@ export function renderGallery(images) {
   )
   .join('');
 
-  gallery.insertAdjacentHTML("beforeend", newMarkup) ;
-  lightbox.refresh();
+  gallery.insertAdjacentHTML('beforeend', newMarkup);
 }
 
 export function renderLoader(loaderElement) {
