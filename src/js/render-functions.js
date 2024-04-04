@@ -21,13 +21,16 @@ export function renderGallery(images) {
     comments,
     downloads,
   }) => `<li>
-          <a class="gallery-link" href="${largeImageURL}">
+            <div class="lightbox-container">
+          <a class="gallery-link"
+          href="${largeImageURL}">
           <img class="gallery-image"
               src="${webformatURL}"
               alt="${tags}"
               width="360"
               height="152"/>
       </a>
+      </div>
       <div class='info-block'>
           <div class="info">
               <h3 class = "head-likes">Likes</h3>

@@ -34,10 +34,10 @@ function handleSubmit(event) {
   handleSearch(findValue, currentPage);
 }
 
-async function handleSearch(query, page) {
+async function handleSearch(query, currentPage) {
   try {
       renderLoader(loader);
-      const data = await getPicture(query, 1);
+      const data = await getPicture(query, currentPage);
       hideLoader(loader);
       console.log(data.hits);
       renderGallery(data.hits)
@@ -47,10 +47,11 @@ async function handleSearch(query, page) {
           return;
       }
       renderGallery(data.hits);
-      if (data.totalHits <= page * 15) {
+    if (data.totalHits <= page * 15) {
+      hideLoader();
           loadMoreBtn.style.display = 'none';
       } else {
-          loadMoreBtn.style.display = 'block';
+        loadMoreBtn.style.display = 'block';
       }
   } catch (error) {
       renderErrorMessage('Something went wrong');
@@ -60,7 +61,8 @@ async function handleSearch(query, page) {
 
 loadMoreBtn.addEventListener("click", onLoadMoreClick)
 async function onLoadMoreClick() {
-  const data = await getPicture(query, 1);
+  page++
+  const data = await getPicture(currentQuery, page);
   renderGallery(data.hits)
   
 }
