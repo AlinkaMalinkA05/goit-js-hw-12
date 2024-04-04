@@ -5,11 +5,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 
 const gallery = document.querySelector(".gallery")
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-  captionPosition: 'bottom',
-});
+let lightbox; 
 
 export function renderGallery(images) {
   const newMarkup = images.map(({
@@ -52,11 +48,17 @@ export function renderGallery(images) {
   </li>`
   )
   .join('');
-
   gallery.insertAdjacentHTML('beforeend', newMarkup);
-  lightbox.refresh();
+  if (lightbox) {
+    lightbox.refresh();
+  } else {
+    const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+  captionPosition: 'bottom',
+});
+  }
 }
-
 export function renderLoader(loaderElement) {
   loaderElement.classList.remove('is-hidden');
 }
