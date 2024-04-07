@@ -48,11 +48,13 @@ async function handleSearch(query, page) {
     }
 
     if (data.totalHits <= currentPage * 15) {
-      hideLoader();
+      renderErrorMessage ("We're sorry, but you've reached the end of search results")
+      hideLoader(loader);
       loadMoreBtn.style.display = 'none';
-    } else {
+      return;
+    }  
       loadMoreBtn.style.display = 'block';
-    }
+    
   } catch (error) {
     renderErrorMessage(error.message);
     hideLoader(loader);
