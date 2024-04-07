@@ -5,7 +5,6 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import { getPicture } from './js/pixaby-api';
 import { renderGallery, renderErrorMessage, renderLoader, hideLoader } from './js/render-functions';
 
-
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
@@ -13,6 +12,7 @@ const loadMoreBtn = document.querySelector('.load-more-btn');
 
 let currentPage = 1;
 let currentQuery = '';
+const perPage = 15;
 
 form.addEventListener('submit', handleSubmit);
 loadMoreBtn.addEventListener('click', onLoadMoreClick); 
@@ -31,14 +31,41 @@ function handleSubmit(event) {
     });
     return;
   }
-  handleSearch(findValue, currentPage);
+  handleSearch(findValue, currentPage, perPage);
 }
 
-async function handleSearch(query, page) {
+async function onLoadMoreClick() {  
+  currentPage++;
   try {
     renderLoader(loader);
-    const data = await getPicture(query, page);
+    const data = await getPicture(currentQuery, currentPage, perPage);
     hideLoader(loader);
+    
+    console.log(data.hits);
+    renderGallery(data.hits);
+
+    if (currentPage * perPage >= data.totalHits) {
+      loadMoreBtn.style.display = 'none';
+      
+      if (data.hits.length === 0) {
+        renderErrorMessage('Sorry, there are no images matching your search query. Please try again!');
+      } else {
+        renderErrorMessage('Sorry, there are no more images to load.');
+      }
+    }
+
+  } catch (error) {
+    renderErrorMessage(error.message);
+    hideLoader(loader);
+  }
+}
+
+async function handleSearch(query, page, perPage) {
+  try {
+    renderLoader(loader);
+    const data = await getPicture(query, page, perPage);
+    hideLoader(loader);
+
     console.log(data.hits);
     renderGallery(data.hits);
 
@@ -47,32 +74,11 @@ async function handleSearch(query, page) {
       return;
     }
 
-    if (data.totalHits <= currentPage * 15) {
-      renderErrorMessage ("We're sorry, but you've reached the end of search results")
-      hideLoader(loader);
+    if (page * perPage >= data.totalHits) {
       loadMoreBtn.style.display = 'none';
-      return;
-    }  
+      renderErrorMessage('Sorry, there are no images matching your search query. Please try again!')
+    } else {
       loadMoreBtn.style.display = 'block';
-    
-  } catch (error) {
-    renderErrorMessage(error.message);
-    hideLoader(loader);
-  }
-}
-
-async function onLoadMoreClick() {  
-  currentPage++;
-  try {
-    renderLoader(loader);
-    const data = await getPicture(currentQuery, currentPage);
-    hideLoader(loader);
-    console.log(data.hits);
-    renderGallery(data.hits);
-
-    if (data.hits.length === 0) {
-      renderErrorMessage('Sorry, there are no more images to load.');
-      loadMoreBtn.style.display = 'none';
     }
   } catch (error) {
     renderErrorMessage(error.message);
