@@ -50,7 +50,7 @@ async function onLoadMoreClick() {
       if (data.hits.length === 0) {
         renderErrorMessage('Sorry, there are no images matching your search query. Please try again!');
       } else {
-        renderErrorMessage('Sorry, there are no more images to load.');
+        renderErrorMessage("We're sorry, but you've reached the end of search results.");
       }
     }
 
